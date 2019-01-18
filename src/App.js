@@ -3,7 +3,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Navbar from './components/pages/Navbar'
 import Contacts from './components/contacts/Contacts'
-import {BrowserRouter as Router,Route,Switch} from 'react-router-dom'
+import {HashRouter as Router,Route,Switch} from 'react-router-dom'
 import NotFound from './components/pages/NotFound'
 import About from './components/pages/About'
 import Add from './components/contacts/Add'

@@ -1,4 +1,4 @@
-Find the deployed application on the below link :
+Find the deployed application on the link :
 https://jacobsima.github.io/React-CRUD-App_1/#/
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

@@ -2,7 +2,7 @@
   "name": "contactlist",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://jacobsima.github.io/React-CRUD-App_1",
+  "homepage": "https://jacobsima.github.io/ContactList2",
   "dependencies": {
     "bootstrap": "^4.2.1",
     "classnames": "^2.2.6",

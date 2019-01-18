@@ -3,18 +3,19 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Navbar from './components/pages/Navbar'
 import Contacts from './components/contacts/Contacts'
-import {HashRouter as Router,Route,Switch} from 'react-router-dom'
+import {BrowserRouter as Router,Route,Switch} from 'react-router-dom'
 import NotFound from './components/pages/NotFound'
 import About from './components/pages/About'
 import Add from './components/contacts/Add'
-import {Provider }from './Context'
+import {Provider }from 'react-redux'
 import Edit from './components/contacts/Edit'
+import store from './store'
 
 class App extends Component {
  
   render() {
     return (
-      <Provider>
+      <Provider store ={store}>
       <Router> 
         <div className="app">
             <Navbar/>

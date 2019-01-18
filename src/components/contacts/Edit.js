@@ -1,58 +1,45 @@
 import React, { Component } from 'react'
-import uuid from 'uuid'
-import {Consumer} from '../../Context'
 import InputForm from '../pages/InputForm'
-import {Context} from '../../Context'
+import {connect} from 'react-redux'
+import {getContact,updateContact} from '../../actions/contactActions'
+
 
 class Edit extends Component {
   state ={
     name:'',
     email:'',
-    number:'',
+    phone:'',
     errors:''
   }
-  //fetch single contact from the context
-  async componentDidMount(){
-       const {id} = this.props.match.params
-       const {disptach}=this.context
-       await disptach({
-         type:'GET_CONTACT',
-         payload:id
-       }) 
-       this.setState({
-      name:this.context.contact[0].name,
-      email:this.context.contact[0].email,
-      number:this.context.contact[0].number
-    })
-    
+  //fetch single contact
+  componentDidMount(){
+      const {id} = this.props.match.params
+      this.props.getContact(id)
   }
-  
-
-
-
+  componentWillReceiveProps(nextProps,nextState){
+    const {name,email,phone}=nextProps.contact
+    this.setState({name,email,phone})
+  }
 
   //onform submit event
-  onSubmit = async(disptach,e)=>{
+  onSubmit = async(e)=>{
     e.preventDefault()
-    const {name,email,number} = this.state
+    const {name,email,phone} = this.state
     const id = this.props.match.params.id
     //check validate inputs fields
     if(name===''){this.setState({errors:{name:'Please Enter Name'}});return}
     if(email===''){this.setState({errors:{email:'Please Enter Email'}});return}
-    if(number===''){this.setState({errors:{number:'Please Enter Number'}}); return}
+    if(phone===''){this.setState({errors:{phone:'Please Enter phone'}}); return}
 
     const newContact ={
       name,
       email,
-      number,
+      phone,
       id
     }
-     
-    //add new user tot the context state
-    disptach({
-      type:'EDIT_CONTACT',
-      payload:newContact
-    })
+    
+    this.props.updateContact(newContact)
+    
     //redirect
     this.props.history.push('/');
 
@@ -60,7 +47,7 @@ class Edit extends Component {
     this.setState({
       name:'',
       email:'',
-      number:'',
+      phone:'',
       errors:''
     })
   }
@@ -68,14 +55,11 @@ class Edit extends Component {
   //input values on change events
   onChange =(e)=>{this.setState({[e.target.name]:e.target.value})}
   render() {
-    const {name,email,number,errors} = this.state
-      return(<Consumer>
-              {value=>{
-                const {disptach} = value
+    const {name,email,phone,errors} = this.state
                 return (
                   <React.Fragment>
                     <h4>Edit Contact</h4>
-                    <form onSubmit={this.onSubmit.bind(this,disptach)}> 
+                    <form onSubmit={this.onSubmit.bind(this)}> 
                         <InputForm
                         type="text" 
                         placeholder="Enter name"
@@ -97,12 +81,12 @@ class Edit extends Component {
 
                     <InputForm
                      type="text" 
-                     placeholder="Enter Number"
-                     name="number" 
-                     value={number}
+                     placeholder="Enter Phone"
+                     name="phone" 
+                     value={phone}
                      onChange ={this.onChange}
-                     label="Number"
-                     error={errors.number}
+                     label="Phone"
+                     error={errors.phone}
                     />
                       <button type="submit" className="btn btn-primary">Submit</button>
                     </form>
@@ -110,11 +94,16 @@ class Edit extends Component {
                 )
                 
               }}
-         </Consumer>)
-  }
-}
 
-export default Edit
-Edit.contextType  = Context
+const mapStateToprops=(state)=>({
+  conctats:state.contact.conctats,
+  contact:state.contact.contact
+})    
+// const mapDispatchToprops =(dispatch)=>({
+   
+// })          
+
+export default connect(mapStateToprops,{getContact,updateContact})(Edit)
+
 
 

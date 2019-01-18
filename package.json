@@ -2,17 +2,23 @@
   "name": "contactlist",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://jacobsima.github.io/React-CRUD-App_1",
   "dependencies": {
     "bootstrap": "^4.2.1",
     "classnames": "^2.2.6",
+    "gh-pages": "^2.0.1",
     "materialize-css": "^1.0.0-rc.2",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
+    "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.3",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0",
     "uuid": "^3.3.2"
   },
   "scripts": {
+    "deploy": "npm run build&&gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

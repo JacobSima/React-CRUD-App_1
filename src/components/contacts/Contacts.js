@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
 import Contact from './Contact'
-import { Consumer} from "../../Context";
+import {connect} from 'react-redux'
+import {getContacts} from  '../../actions/contactActions'
+
 
 class Contacts extends Component {
+  componentDidMount(){
+    this.props.getContacts()
+  }
   render() {
-     return (<Consumer>
-           {value=>{
-             const {contacts}=value
+    const {contacts} =this.props
              return (
               <React.Fragment>
                {contacts.map(contact=>(
@@ -15,9 +18,21 @@ class Contacts extends Component {
                 </React.Fragment>
              )
            }}
-        </Consumer>
-     )
-  }
-}
 
-export default Contacts 
+const mapStateToprops =(state)=>({
+  contacts:state.contact.contacts
+})
+// const mapDispatchToProps=(dispatch)=>({
+
+//   getContacts:async()=>{
+//     const res = await fetch('https://jsonplaceholder.typicode.com/users')
+//     const resData = await res.json()
+//     dispatch({
+//       type:'GET_CONTACTS',payload:resData
+//     })
+//   }
+
+
+// })
+
+export default connect(mapStateToprops,{getContacts})(Contacts) 

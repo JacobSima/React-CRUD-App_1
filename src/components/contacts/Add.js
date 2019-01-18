@@ -1,45 +1,42 @@
 import React, { Component } from 'react'
 import uuid from 'uuid'
-import {Consumer} from '../../Context'
 import InputForm from '../pages/InputForm'
+import {connect} from 'react-redux'
+import {addContact} from '../../actions/contactActions'
 
 class Add extends Component {
   state ={
     name:'',
     email:'',
-    number:'',
+    phone:'',
     errors:''
   }
 
   //onform submit event
-  onSubmit = async(disptach,e)=>{
+  onSubmit = async(e)=>{
     e.preventDefault()
-    const {name,email,number} = this.state
+    const {name,email,phone} = this.state
     //check validate inputs fields
     if(name===''){this.setState({errors:{name:'Please Enter Name'}});return}
     if(email===''){this.setState({errors:{email:'Please Enter Email'}});return}
-    if(number===''){this.setState({errors:{number:'Please Enter Number'}}); return}
+    if(phone===''){this.setState({errors:{phone:'Please Enter Phone'}}); return}
 
     const newContact ={
       name,
       email,
-      number,
-      id:uuid()
+      phone,
     }
-     
     //add new user tot the context state
-    disptach({
-      type:'ADD_CONTACT',
-      payload:newContact
-    })
+    this.props.addContact(newContact)
     //redirect
+
     this.props.history.push('/');
 
     //clear the input fields
     this.setState({
       name:'',
       email:'',
-      number:'',
+      phone:'',
       errors:''
     })
   }
@@ -47,14 +44,11 @@ class Add extends Component {
   //input values on change events
   onChange =(e)=>{this.setState({[e.target.name]:e.target.value})}
   render() {
-    const {name,email,number,errors} = this.state
-      return(<Consumer>
-              {value=>{
-                const {disptach} = value
+    const {name,email,phone,errors} = this.state
                 return (
                   <React.Fragment>
                     <h4>Add Contact</h4>
-                    <form onSubmit={this.onSubmit.bind(this,disptach)}> 
+                    <form onSubmit={this.onSubmit.bind(this)}> 
                         <InputForm
                         type="text" 
                         placeholder="Enter name"
@@ -76,12 +70,12 @@ class Add extends Component {
 
                     <InputForm
                      type="text" 
-                     placeholder="Enter Number"
-                     name="number" 
-                     value={number}
+                     placeholder="Enter Phone"
+                     name="phone" 
+                     value={phone}
                      onChange ={this.onChange}
-                     label="Number"
-                     error={errors.number}
+                     label="phone"
+                     error={errors.phone}
                     />
                       <button type="submit" className="btn btn-primary">Submit</button>
                     </form>
@@ -89,10 +83,7 @@ class Add extends Component {
                 )
                 
               }}
-         </Consumer>)
-  }
-}
 
-export default  Add 
+export default connect(null,{addContact})(Add )
 
 
